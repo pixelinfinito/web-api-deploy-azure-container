@@ -1,0 +1,1 @@
+GET http://localhost:1234/api/users HTTP/1.1

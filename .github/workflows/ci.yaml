@@ -1,0 +1,17 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@main

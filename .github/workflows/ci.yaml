@@ -1,17 +1,26 @@
-name: ci
+name: Container Workflow
 
 on:
   push:
     branches:
-      - main
+      - docker-azure-registry
   pull_request:
     branches:
-      - main
+      - docker-azure-registry
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@main
+    - uses: actions/checkout@v2
+
+    - uses: azure/docker-login@v1
+      with:
+        login-server: deployteste.azurecr.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - run: |
+        docker build . -t deployteste.azurecr.io/webazuredeploy:${{ github.sha }}
+        docker push deployteste.azurecr.io/webazuredeploy:${{ github.sha }}
